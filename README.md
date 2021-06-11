@@ -13,11 +13,11 @@ a) real constants: k
 
 b) polynomials of degree less than or equal to 4
 
-c) = f (x) + g (x) k1 e k x 2 x
+c) = k1 e^(k2*x)
 
-d) = f (x) + g (x) k1 sin k (x) = f (x) + g (x) 2 x x) = f (x) + g (x)
+d) = k1 sen(k2*x)
 
-e) = f (x) + g (x) k1 cos k (x) = f (x) + g (x) 2 x x) = f (x) + g (x)
+e) = k1 cos(k2*x)
 
 
 The program must use the genetic algorithm technique to find a function h that
