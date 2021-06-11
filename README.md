@@ -1,5 +1,9 @@
 # Eureqa - simpler version
 
+## Run Code
+```
+python3 -X pycache_prefix=bytecodes codes/eureqa.py 
+```
 
 ## Description of the problem: 
 You have a real-world phenomenon, and you want to know what the function that describes its behavior.
