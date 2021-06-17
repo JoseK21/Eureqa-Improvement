@@ -1,6 +1,8 @@
 import random
 import numpy as np
 
+import math
+
 def constant(_, _1, _2, c=0):
    return c
 
@@ -9,7 +11,10 @@ def poli4(x, _, _1, _2):
     return p(x) 
 
 def expo(x, k1=0, k2=0, _=None):
-    return k1 * np.exp(k2 * x) 
+    # return k1 * np.exp(k2 * x) 
+
+    return k1 * math.exp(k2 * x) 
+
 
 def sin(x, k1=0, k2=0, _=None):
     return k1 * np.sin(k2 * x) 
@@ -17,5 +22,12 @@ def sin(x, k1=0, k2=0, _=None):
 def cos(x, k1=0, k2=0, _=None):
     return k1 * np.cos(k2 * x) 
 
+# Fitness Function:
 def error(Vreal, Vaprox):
-    return abs(Vreal - Vaprox) / Vreal
+    if(Vreal != 0):
+        return abs(Vreal - Vaprox) / Vreal
+    return 9999999
+
+def truncate(num, n):
+    integer = int(num * (10**n))/(10**n)
+    return float(integer)

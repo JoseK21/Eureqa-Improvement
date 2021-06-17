@@ -1,30 +1,80 @@
 from constants import *
+from functions import *
+
 from classes import *
 
+import random
+import numpy as np
+
+from matplotlib import pyplot as plt
+
 def main():
-    k1_f = 10
-    k2_f = 5
-
-    k1_g = 7
-    k2_g = 3
-
-    c = 50 # Const
-
     ee = 9999999
 
-    test_x = 2
+    pob_inicial = []
+    for p in range(POPULATION):
+        chomosome = np.random.randint(5, size=2)
+        newChromosome = []
+        for c in range(2):
+            newChromosome.append(chomosome[c])
 
-    individual = Individual()
-
-    for x in range(1, len(METHOD_DICTIONARY.keys())):
-        method = METHOD_DICTIONARY[x]
-        Va = method[0](test_x, k1_f, k2_f, c) + method[1](test_x, k1_g, k2_g, c)
-        e = error(TABLE[test_x], Va)
-        if(e < ee):
-            individual._update(test_x, Va, e, method[0], method[1], k1_f, k2_f, k1_g, k2_g)
-            ee = e
+        for k in range(5):
+            newConstant = truncate(np.random.uniform(-5, 5), 5)
+            newChromosome.append(newConstant)
         
-    individual.printInfo()
+        pob_inicial.append(newChromosome)
+
+    # print("🚀 ~ pob_inicial", pob_inicial)
+
+    population = []
+
+    current_population = pob_inicial.copy()
+
+    best_individuals = [None, None]
+
+    for x in range(1, 119): #  118
+        h_x = H[x - 1]
+        for ind in current_population:
+            [f, g, c, k1_f, k2_f, k1_g, k2_g] = ind # DESTRUCTING
+
+            f_f = FUNCTIONS[f]
+            f_g = FUNCTIONS[g]
+
+            Va = truncate(f_f(x, k1_f, k2_f, c) + f_g(x, k1_g, k2_g, c), 5)
+            e = error(h_x, Va)
+            # if(e < ee):
+            #     ee = e
+
+            if(len(population) > POPULATION + 1):
+                population[POPULATION] = Individual(x, Va, e, c, f, g, k1_f, k2_f, k1_g, k2_g)
+                population.sort(key=lambda individuo: individuo.e, reverse=False)
+                population.pop()
+                population.pop()
+
+                # print("-.-.-.-.-.-.-.-", population[len(population) - 1].e )
+
+                print("-.-.-.-.-.-.-.-.-.-")
+                for i in population:
+                    print(i.e)
+
+            else:
+                population.append(Individual(x, Va, e, c, f, g, k1_f, k2_f, k1_g, k2_g))
+        # ee = 9999999
+
+    best_individuals = [population[0], population[1]]
+
+    print("-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-")
+
+    for bi in best_individuals:
+        print(bi.e)
+
+    print("-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-")
+
 
 if __name__ == "__main__":
     main()
+
+
+
+# plt.plot(range(118), h_x)
+# plt.show()
