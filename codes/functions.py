@@ -7,7 +7,8 @@ def constant(_, _1, _2, c=0):
    return c
 
 def poli4(x, _, _1, _2):
-    p = np.poly1d([2, 3, 2, -1])
+    p = np.poly1d([5, 4, 3, 2, 1]) # 5x4 + 4x3 + 3x2 + 2x + 1
+
     return p(x) 
 
 def expo(x, k1=0, k2=0, _=None):

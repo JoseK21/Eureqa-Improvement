@@ -18,7 +18,7 @@ def main():
         for c in range(2):
             newChromosome.append(chomosome[c])
 
-        for k in range(5):
+        for k in range(6):
             newConstant = truncate(np.random.uniform(-5, 5), 5)
             newChromosome.append(newConstant)
         
@@ -35,18 +35,18 @@ def main():
     for x in range(1, 119): #  118
         h_x = H[x - 1]
         for ind in current_population:
-            [f, g, c, k1_f, k2_f, k1_g, k2_g] = ind # DESTRUCTING
+            [f, g, c1, c2, k1_f, k2_f, k1_g, k2_g] = ind # DESTRUCTING
 
             f_f = FUNCTIONS[f]
             f_g = FUNCTIONS[g]
 
-            Va = truncate(f_f(x, k1_f, k2_f, c) + f_g(x, k1_g, k2_g, c), 5)
+            Va = truncate(f_f(x, k1_f, k2_f, c1) + f_g(x, k1_g, k2_g, c2), 5)
             e = error(h_x, Va)
             # if(e < ee):
             #     ee = e
 
             if(len(population) > POPULATION + 1):
-                population[POPULATION] = Individual(x, Va, e, c, f, g, k1_f, k2_f, k1_g, k2_g)
+                population[POPULATION] = Individual(x, Va, e, c1, c2, f, g, k1_f, k2_f, k1_g, k2_g)
                 population.sort(key=lambda individuo: individuo.e, reverse=False)
                 population.pop()
                 population.pop()
@@ -58,17 +58,18 @@ def main():
                     print(i.e)
 
             else:
-                population.append(Individual(x, Va, e, c, f, g, k1_f, k2_f, k1_g, k2_g))
+                population.append(Individual(x, Va, e, c1, c2, f, g, k1_f, k2_f, k1_g, k2_g))
         # ee = 9999999
 
     best_individuals = [population[0], population[1]]
 
-    print("-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-")
+    print("\033[92m-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-\033[0m")
 
     for bi in best_individuals:
-        print(bi.e)
+        # print(bi.e)
+        bi.printInfo()
 
-    print("-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-")
+    print("\033[92m-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-\033[0m")
 
 
 if __name__ == "__main__":
