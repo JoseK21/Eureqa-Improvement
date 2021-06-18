@@ -12,9 +12,13 @@ def poli4(x, _, _1, _2):
     return p(x) 
 
 def expo(x, k1=0, k2=0, _=None):
-    # return k1 * np.exp(k2 * x) 
+    return k1 * np.exp(k2 * x) 
 
-    return k1 * math.exp(k2 * x) 
+    # return k1 * math.exp(k2 * x) 
+
+    # return k1 * 2.718281**(k2 * x) 
+
+
 
 
 def sin(x, k1=0, k2=0, _=None):
@@ -26,7 +30,7 @@ def cos(x, k1=0, k2=0, _=None):
 # Fitness Function:
 def error(Vreal, Vaprox):
     if(Vreal != 0):
-        return abs(Vreal - Vaprox) / Vreal
+        return (abs(Vreal - Vaprox) / Vreal) * 100
     return 9999999
 
 def truncate(num, n):
