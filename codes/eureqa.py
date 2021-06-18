@@ -32,44 +32,52 @@ def main():
 
     best_individuals = [None, None]
 
-    for x in range(1, 119): #  118
-        h_x = H[x - 1]
-        for ind in current_population:
-            [f, g, c1, c2, k1_f, k2_f, k1_g, k2_g] = ind # DESTRUCTING
+    e_array = []
 
-            f_f = FUNCTIONS[f]
-            f_g = FUNCTIONS[g]
+    for ind in current_population[0:1]:
+        [f, g, c1, c2, k1_f, k2_f, k1_g, k2_g] = ind # DESTRUCTING
+
+        f_f = FUNCTIONS[f]
+        f_g = FUNCTIONS[g]
+
+        e_ = 0
+        for x in range(1, 119): #  118
+            h_x = H[x - 1]
 
             Va = truncate(f_f(x, k1_f, k2_f, c1) + f_g(x, k1_g, k2_g, c2), 5)
             e = error(h_x, Va)
-            # if(e < ee):
-            #     ee = e
 
-            if(len(population) > POPULATION + 1):
-                population[POPULATION] = Individual(x, Va, e, c1, c2, f, g, k1_f, k2_f, k1_g, k2_g)
-                population.sort(key=lambda individuo: individuo.e, reverse=False)
-                population.pop()
-                population.pop()
+            print("🚀 {0} ~ e: {1}".format(x, e))
 
-                # print("-.-.-.-.-.-.-.-", population[len(population) - 1].e )
+            e_ =+ e
+            # if(len(population) > POPULATION + 1):
+            #     population[POPULATION] = Individual(x, Va, e, c1, c2, f, g, k1_f, k2_f, k1_g, k2_g)
+            #     population.sort(key=lambda individuo: individuo.e, reverse=False)
+            #     population.pop()
+            #     population.pop()
+            # else:
+            #     population.append(Individual(x, Va, e, c1, c2, f, g, k1_f, k2_f, k1_g, k2_g))
+        
+        population.append(Individual('x', 0, 0, c1, c2, f, g, k1_f, k2_f, k1_g, k2_g))
+        e_array.append(e_/118)
+        # print(e_/118)
 
-                print("-.-.-.-.-.-.-.-.-.-")
-                for i in population:
-                    print(i.e)
+    # best_individuals = [population[0], population[1]]
 
-            else:
-                population.append(Individual(x, Va, e, c1, c2, f, g, k1_f, k2_f, k1_g, k2_g))
-        # ee = 9999999
 
-    best_individuals = [population[0], population[1]]
+    for p in population:
+        p.printInfo()
 
-    print("\033[92m-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-\033[0m")
+    for a in e_array:
+        print(a)
 
-    for bi in best_individuals:
-        # print(bi.e)
-        bi.printInfo()
+    # print("\033[92m-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-\033[0m")
 
-    print("\033[92m-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-\033[0m")
+    # for bi in best_individuals:
+    #     # print(bi.e)
+    #     bi.printInfo()
+
+    # print("\033[92m-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-\033[0m")
 
 
 if __name__ == "__main__":
