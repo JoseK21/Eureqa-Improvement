@@ -76,7 +76,7 @@ k2_g : Constant k2 of g(x)
 ```
 ## Chromosomes
 ```python
-[f_f, f_g, c, k1_f, k2_f, k1_g, k2_g]
+[f_f, f_g, c1, c2, k1_f, k2_f, k1_g, k2_g]
 ```
 
 ### To Find more information, please go to : 
