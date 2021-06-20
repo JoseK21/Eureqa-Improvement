@@ -12,7 +12,17 @@ class Individual:
     self.k1_g = k1_g    # Constant k1 of g(x)
     self.k2_g = k2_g    # Constant k2 of g(x)
     self.e = e          # Error %
-
+  def printData(self):
+    print('f : ', self.f)
+    print('g : ', self.g)
+    print('c1 : ', self.c1)
+    print('c2 : ', self.c2)
+    print('k1_f : ', self.k1_f)
+    print('k2_f : ', self.k2_f)
+    print('k1_g : ', self.k1_g)
+    print('k2_g : ', self.k2_g)
+    print('e : ', self.e)
+  
   def printInfo(self, x):
     # >>>>>>>> sin || cos
     if(FUNCTIONS[self.f].__name__ in ["sin", "cos"] and FUNCTIONS[self.g].__name__ in ["sin", "cos"]):
