@@ -30,8 +30,8 @@ def formatChomosomesToPopulation(pob_inicial):
         for ind in current_population:
             f = ind.f
             g = ind.g
-            c1 = ind.c1
-            c2 = ind.c2
+            cf = ind.cf
+            cg = ind.cg
             k1_f = ind.k1_f
             k2_f = ind.k2_f
             k1_g = ind.k1_g
@@ -44,10 +44,10 @@ def formatChomosomesToPopulation(pob_inicial):
             for x in range(1, 119):
                 h_x = H[x - 1]
 
-                Va = f_f(x, k1_f, k2_f, c1) + f_g(x, k1_g, k2_g, c2)
+                Va = f_f(x, k1_f, k2_f, cf) + f_g(x, k1_g, k2_g, cg)
                 e = error(h_x, Va)
                 e_ =+ e
 
-            population.append(Individual(f, g, c1, c2, k1_f, k2_f, k1_g, k2_g, (e_/118) * 100))
+            population.append(Individual(f, g, cf, cg, k1_f, k2_f, k1_g, k2_g, (e_/118) * 100))
         
         return population
