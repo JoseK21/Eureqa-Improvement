@@ -17,8 +17,7 @@ warnings.filterwarnings("ignore", category=RuntimeWarning)
 
 def main():   
     ee = 9999999
-    pob_inicial = []
-    num_population = 10
+    num_population = 100
     num_parents_mating = 4
     generation_counter = 1
 
@@ -62,7 +61,6 @@ def main():
         # temp_e_generation = 0
 
         population.sort(key=lambda individuo: individuo.e, reverse=False)
-
 
         for newPopulation in population:
             print(truncate(newPopulation.e, 1), end=' <-> ')
@@ -208,7 +206,7 @@ def main():
             print('\tFitness Score : ', bi.e)
         print("\033[0m")
 
-        pob_inicial = current_population_1
+        population_data_chomosomes = current_population_1.copy()
 
 if __name__ == "__main__":
     main()
