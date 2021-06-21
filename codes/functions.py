@@ -13,13 +13,8 @@ def poli4(x, _, _1, _2):
 
 def expo(x, k1=0, k2=0, _=None):
     return k1 * np.exp(k2 * x) 
-
     # return k1 * math.exp(k2 * x) 
-
     # return k1 * 2.718281**(k2 * x) 
-
-
-
 
 def sin(x, k1=0, k2=0, _=None):
     return k1 * np.sin(k2 * x) 
@@ -34,5 +29,10 @@ def error(Vreal, Vaprox):
     return 9999999
 
 def truncate(num, n):
-    integer = int(num * (10**n))/(10**n)
-    return float(integer)
+    if(num != float('Inf')):
+        integer = int(num * (10**n))/(10**n)
+        return float(integer)
+    return num
+
+def logToEcu(ecu):
+    print(ecu.replace('cos', '*np.cos').replace('sin', '*np.sin'))
