@@ -7,13 +7,11 @@ from eureqa_functions import *
 import random
 import numpy as np
 
-from matplotlib import pyplot as plt
-
 import warnings
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 
 def main():   
-    num_population = 5
+    num_population = 3
     num_parents_mating = 4
     generation_counter = 0
 
@@ -32,25 +30,29 @@ def main():
     # print("\033[92m-.-.-.-.-.-.-.-.-.-.- LOOP -.-.-.-.-.-.-.-.-.-.-\033[0m")
     for _population in range(num_population):
         generation_counter += 1
+        print("\033[96m-.-.-.-.-.-.-.-.-.-.- #{0} GENERATION  -.-.-.-.-.-.-.-.-.-.-.-.-\033[0m".format(generation_counter))
 
-        # print("\033[92m-.-.-.-.-.-.-.-.-.-.- SELECTION -.-.-.-.-.-.-.-.-.-.-\033[0m")
+        # print(-.-.-.-.-.-.- SELECTION -.-.-.-.-.-.-.-.-.")
         best_individuals = population[0: num_parents_mating]
 
-        # print("\033[94m-.-.-.-.-.-.-.-.-.-. CROSSOVER -.-.-.-.-.-.-.-.-.-.-.-.-\033[0m")
+        printSteps('\033[95m', '>>>>>> PARENTS: ', best_individuals.copy())
+
+        # print(-.-.-.-.-.-.-.- CROSSOVER -.-.-.-.-.-.-.-.-.-")
         new_children_by_crossover = crossover(best_individuals)
+        printSteps('\033[94m', '>>>>>> CROSSOVER: ', new_children_by_crossover.copy())
 
-        # print("\033[95m-.-.-.-.-.-.-.-.-.-.- MUTATION -.-.-.-.-.-.-.-.-.-.-.-.-\033[0m")
+        # print(-.-.-.-.-.-.-.-.-.-.-.- MUTATION -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-")
         population = mutation(best_individuals.copy(), new_children_by_crossover)
+        printSteps('\033[93m', '>>>>>> MUTATION: ', population[8:10].copy())
 
-        # print("\033[95m-.-.-.-.-.-.-.-.-. SORT BY FITNESS -.-.-.-.-.-.-.-.-.-.-\033[0m")
+        # print(-.-.-.-.-.-.-.-.- SORT BY FITNESS -.-.-.-.-.-.-.-.-.-.-")
         population.sort(key=lambda individuo: individuo.e, reverse=False)
 
-        print("\033[96m-.-.-.-.-.-.-.-.-.-.- #{0} GENERATION  -.-.-.-.-.-.-.-.-.-.-.-.-\033[0m".format(generation_counter))
-        printGeneration(population)
+        printChomosomeEcuation(population[0:1])
 
-        printChomosomeEcuation(population[0:4])
+    ecu = population[0].printInfo('x', '')
 
-        population_data_chomosomes = population.copy()
+    plot(logToEcu(ecu))
 
 if __name__ == "__main__":
     main()

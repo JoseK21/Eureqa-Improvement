@@ -13,15 +13,15 @@ A simpler version of the Eureqa program is requested.
 A data set of a real world phenomenon is given. Candidate functions to approximate
 the data are of the form h(x) = f(x) + g(x), where both f and g, may be:
 
-a) real constants: k
+0) real constants: k
 
-b) polynomials of degree less than or equal to 4
+1) polynomials of degree less than or equal to 4
 
-c) = k1 e^(k2*x)
+2) = k1 e^(k2*x)
 
-d) = k1 sen(k2*x)
+3) = k1 sen(k2*x)
 
-e) = k1 cos(k2*x)
+4) = k1 cos(k2*x)
 
 
 The program must use the genetic algorithm technique to find a function h that

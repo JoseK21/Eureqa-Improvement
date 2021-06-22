@@ -3,6 +3,8 @@ import numpy as np
 
 import math
 
+num_max_min = 9999999999
+
 def constant(_, _1, _2, c=0):
    return c
 
@@ -12,9 +14,11 @@ def poli4(x, _, _1, _2):
     return p(x) 
 
 def expo(x, k1=0, k2=0, _=None):
-    return k1 * np.exp(k2 * x) 
-    # return k1 * math.exp(k2 * x) 
-    # return k1 * 2.718281**(k2 * x) 
+    crash = k1 * np.exp(k2 * x) 
+
+    if(crash == float('Inf') or crash == -float('Inf')):
+        return num_max_min * 123
+    return crash  * 0
 
 def sin(x, k1=0, k2=0, _=None):
     return k1 * np.sin(k2 * x) 
@@ -29,10 +33,8 @@ def error(Vreal, Vaprox):
     return 9999999
 
 def truncate(num, n):
-    if(num != float('Inf')):
-        integer = int(num * (10**n))/(10**n)
-        return float(integer)
-    return num
+    integer = int(num * (10**n))/(10**n)
+    return float(integer)
 
 def logToEcu(ecu):
     print(ecu.replace('cos', '*np.cos').replace('sin', '*np.sin'))

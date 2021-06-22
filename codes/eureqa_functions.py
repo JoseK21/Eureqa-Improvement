@@ -1,7 +1,42 @@
-import numpy as np
-from functions import truncate
 from classes import *
+from functions import *
+from constants import *
 
+import matplotlib.pyplot as plt
+import numpy as np
+
+def plot(ecuation):
+    e_ = 0
+    y_ = []
+    x_ = []
+
+    for i in range(1, 119):
+        x = i
+        h_x = H[x - 1]
+
+        Va = eval(ecuation)
+        y_.append(Va)
+        x_.append(x)
+
+        e = error(h_x, Va)
+        e_ =+ e
+
+    fig, (ax1, ax2) = plt.subplots(2)
+    fig.suptitle('Vertically stacked subplots')
+
+    ax1.plot(x_, y_)
+    ax2.scatter(x_, y_)
+
+    plt.xlabel('x - axis')
+    plt.ylabel('y - axis')
+    plt.title('_Eureqa_')
+    plt.show()
+
+
+
+def logToEcu(ecu):
+    new_e = ecu.replace('cos', '*math.cos').replace('sin', '*math.sin').replace('e**', 'math.e**')
+    return new_e
 
 def generateInitialPopulation(POPULATION):
     pob_inicial = []
@@ -10,7 +45,7 @@ def generateInitialPopulation(POPULATION):
         chomosome = np.random.randint(5, size=2)
         newChromosome = []
         for c in range(2):
-            newChromosome.append(chomosome[c])
+            newChromosome.append(chomosome[c]) # 2
 
         for k in range(6):
             newConstant = truncate(np.random.uniform(-50, 50), 2)
@@ -22,6 +57,11 @@ def generateInitialPopulation(POPULATION):
         newPopulation.printInfo('x', "# -> ")
 
     return pob_inicial
+
+def setMax(value):
+    if(value > num_max_min):
+        return num_max_min
+    return value
 
 def formatChomosomesToPopulation(pob_inicial):
         population = []
@@ -46,9 +86,12 @@ def formatChomosomesToPopulation(pob_inicial):
             e_ = 0
             for x in range(1, 119):
                 h_x = H[x - 1]
+                
+                result_f = setMax(f_f(x, k1_f, k2_f, cf))
+                result_g = setMax(f_g(x, k1_g, k2_g, cg))
 
-                Va = f_f(x, k1_f, k2_f, cf) + f_g(x, k1_g, k2_g, cg)
-                e = error(h_x, Va)
+                Va = result_f + result_g
+                e = error(h_x, setMax(Va))
                 e_ =+ e
 
             population.append(Individual(f, g, cf, cg, k1_f, k2_f, k1_g, k2_g, (e_/118) * 100))
@@ -57,50 +100,53 @@ def formatChomosomesToPopulation(pob_inicial):
 
 def printChomosomeEcuation(best_individuals):
     print("\033[92m")
-    rank = 0
     for bi in best_individuals[0: 4]:
-        rank += 1
-        bi.printInfo('x', "\tBest Individual: <{0}> ".format(rank))
-        print('\tFitness Score : ', bi.e)
+        bi.printInfo('x', "\tBest Individual: ")
+        print('\tFitness Score: ', bi.e)
     print("\033[0m")
 
 def printGeneration(population):
     ind = 1
+    print('\n', end='')
     for newPopulation in population:
         print(truncate(newPopulation.e, 1), end=' <-> ')
         newPopulation.printInfo('x', "#{0} -> ".format(ind))
         ind += 1
 
 def mutation(ni, new_children_by_crossover):
-    list1 = range(0, 8) 
-
-    selectedCrossOver_toMutation = random.sample(list1, 2)
+    selectedCrossOver_toMutation = random.sample(range(0, 8), 2)
     current_population_1 = ni + new_children_by_crossover
 
     current_population_1.sort(key=lambda individuo: individuo.e, reverse=False)
 
+    #         0       1    2      3    4        5        6      7
     gene = ['f_f', 'f_g', 'cf', 'cg', 'k1_f', 'k2_f', 'k1_g', 'k2_g']
 
-    gen_a_cambiar = random.sample(range(0,8), 1)[0]
-
-    g = gene[gen_a_cambiar]
-
     for sco in selectedCrossOver_toMutation:
-        f_O_g = random.sample(range(0,2), 1)[0]
+        params_of_f_O_g = random.sample(range(0,2), 1)[0]
         i9_10 = None
+        g = None
+        gen_a_cambiar = None
+
         aaa = current_population_1.copy()
         ind = aaa[sco]
 
-        if(f_O_g == 0):
-            if(ind.f == 0):
+        if(params_of_f_O_g == 0):
+            if(ind.f == 0): # constante de c de f(x)
                 g = 'cf'
-            elif(ind.f >= 2):
+            # elif(ind.f == 1):
+            #     # TODO: CAmbiar parametros del polinomio
+            #     v = 0
+            else:
                 gen_a_cambiar = random.sample([0, 4, 5], 1)[0]
                 g = gene[gen_a_cambiar]
         else:
-            if(ind.g == 0):
+            if(ind.g == 0): # constante de c de f(x)
                 g = 'cg'
-            elif(ind.g >= 2):
+            # elif(ind.g == 1):
+            #     # TODO: CAmbiar parametros del polinomio
+            #     v = 0
+            else:
                 gen_a_cambiar = random.sample([1, 6, 7], 1)[0]
                 g = gene[gen_a_cambiar]
 
@@ -160,3 +206,12 @@ def crossover(best_individuals):
     new_children_by_crossover.append(i3)
 
     return new_children_by_crossover
+
+def printSteps(color, label, array):
+    print(color, end='')
+    for newPopulation in array:
+        print(newPopulation.e, end=' ')
+        print(label, end='')
+        newPopulation.printInfo('x', "", False)
+    print('\033[0m', end='')
+
