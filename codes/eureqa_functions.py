@@ -105,6 +105,12 @@ def printChomosomeEcuation(best_individuals):
         print('\tFitness Score: ', bi.e)
     print("\033[0m")
 
+def generalFitness(items):
+    gf = 0
+    for item in items:
+        gf = gf + item.e
+    return gf
+
 def printGeneration(population):
     ind = 1
     print('\n', end='')
